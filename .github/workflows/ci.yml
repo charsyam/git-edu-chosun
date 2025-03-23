@@ -25,7 +25,7 @@ jobs: # actoion이 시작될 경우 진행될 과정
       - name: pylint
         run: |
           cd calcu
-          PYTHONPATH=. pylint src --disable=C,R,W
+          PYTHONPATH=. pylint calcu --disable=C,R,W
           PYTHONPATH=. pylint tests --disable=C,R,W
       - name: Run tests with pytest
         run: |
