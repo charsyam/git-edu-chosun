@@ -1,0 +1,33 @@
+name: UnitTest
+
+on: # 아래의 상황에서 action을 시작한다.
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs: # actoion이 시작될 경우 진행될 과정
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python 3
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: pylint
+        run: |
+          cd calcu
+          PYTHONPATH=. pylint src --disable=C,R,W
+          PYTHONPATH=. pylint tests --disable=C,R,W
+      - name: Run tests with pytest
+        run: |
+          cd calcu  
+          PYTHONPATH=. pytest tests
